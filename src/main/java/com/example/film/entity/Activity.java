@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,6 +30,10 @@ public class Activity {
 
     @Column(name = "hora_cadastro")
     private LocalTime timeService;
+
+    @ManyToOne
+    @JoinColumn(name = "partner-id")
+    private Partner partner;
 
     public void setDateService(LocalDate dateService){
         this.dateService = dateService;

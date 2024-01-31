@@ -1,8 +1,10 @@
 package com.example.film.service;
 
+import com.example.film.entity.Partner;
 import com.example.film.repository.ActivityRepository;
 import com.example.film.dto.ActivityDTO;
 import com.example.film.entity.Activity;
+import com.example.film.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +24,13 @@ public class ActivityServices {
     @Autowired
     private ActivityRepository activityRepository;
 
+    @Autowired
+    private PartnerRepository partnerRepository;
 
     @Transactional
     public ActivityDTO save(ActivityDTO activityDTO) {
         Activity entity = new Activity();
+
         copyDTOToEntity(activityDTO, entity);
         entity = activityRepository.save(entity);
         return new ActivityDTO(entity);
@@ -67,5 +72,12 @@ public class ActivityServices {
         LocalTime time = LocalTime.now();
         entity.setDateService(now);
         entity.setTimeService(time);
+        if (activityDTO.partnerDTO() != null && !activityDTO.partnerDTO().partnerName().isEmpty()) {
+            Partner partner = partnerRepository.getReferenceById(activityDTO.partnerDTO().id());
+            partner.setId(activityDTO.partnerDTO().id());
+            entity.setPartner(partner);
+        }
+
+
     }
 }

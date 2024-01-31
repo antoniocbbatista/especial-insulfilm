@@ -14,7 +14,7 @@ import java.net.URI;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/atividades")
-public class Controller {
+public class ActivityController {
 
     @Autowired
     private ActivityServices activityServices;
